@@ -1,0 +1,54 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    <h1>New task</h1>
+    <form method="POST" class="post-form" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div class="form-group">
+            {{ form.title.errors }}
+            <label for="id_title">Title </label>
+            <div>
+                <input type="text" name="title" value="{{ form.instance.title }}" maxlength="100"
+                       class="textinput textInput form-control" id="id_title">
+            </div>
+        </div>
+        <div class="form-group">
+            {{ form.text.errors }}
+            <label for="id_text">Text</label>
+            <div>
+                <input type="text" name="text" value="{{ form.instance.text }}" maxlength="500"
+                class="textinput textInput form-control" id="id_text">
+            </div>
+        </div>
+        <div class="form-group">
+            {{ form.text.errors }}
+            <label for="id_text" >Category</label>
+            <select name="category" id="categories" class="form-control">
+
+                {% for category in categories %}
+                    <option {% if form.instance.category == category%}selected{% endif %}
+                            value="{{ category.id }}"> {{ category.name }} </option>
+                {% endfor %}
+            </select>
+        </div>
+         <div class="form-group">
+            {{ form.status.errors }}
+            <label for="id_text" >Status</label>
+
+                {{ form.status }}
+        </div>
+        <div class="form-group">
+            {{ form.image.errors }}
+            <label for="id_image">Image</label>
+            <div>
+                {% if form.instance.image %}
+                    <img width="200" src="{{ form.instance.image.url }}">
+                {% endif %}
+                <input type="file" name="image" id="id_image">
+            </div>
+
+        </div>
+        <button type="submit" class="save btn btn-default">Save</button>
+    </form>
+{% endblock %}
